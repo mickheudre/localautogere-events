@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div class="max-h-screen overflow-y-auto">
         <div class="mb-6" v-for="block in events.results" :key="block.id">
             <h3 class="capitalize font-semibold"> {{ dateToString(block.properties.Date.date.start) }}</h3>
             <h2 class="">
