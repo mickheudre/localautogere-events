@@ -2,12 +2,13 @@
     <div class="max-h-screen overflow-y-auto">
         <div class="mb-6" v-for="block in events.results" :key="block.id">
             <h3 class="capitalize font-semibold"> {{ dateToString(block.properties.Date.date.start) }}</h3>
+            <span class="italic text-sm"> {{ formatTags(block.properties.Tags.multi_select) }} </span>
             <h2 class="">
                 <span  v-for="title in block.properties.Name.title" :key="title.id">
                     {{ title.plain_text }}
                 </span>
             </h2>
-            <p class="italic">
+            <p class="">
                 <span  v-for="title in block.properties.Description.rich_text" :key="title.id">
                     {{ title.plain_text }}
                 </span>
@@ -22,6 +23,8 @@
 </template>
 
 <script lang="ts">
+import { isLet } from '@babel/types';
+import { List } from 'postcss/lib/list';
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -44,6 +47,14 @@ export default Vue.extend({
         dateToString(date : string) {
             const event = new Date(date)
             return event.toLocaleDateString('fr-FR', { weekday: "long", year: "numeric", month: "long", day: "numeric" })
+        },
+        formatTags(tags : Array<any>) {
+            let tagsList = new Array<string>();
+
+            tags.forEach(element => {
+                tagsList.push(element.name)
+            });
+            return tagsList.join(', ')
         }
     }
 })
