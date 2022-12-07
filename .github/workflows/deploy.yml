@@ -1,0 +1,10 @@
+
+name: update-calendar
+run-name: Updating the calendar
+on:
+  workflow_dispatch
+jobs:
+  update-calendar:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -X POST https://www.notion.so/mickheudre/Local-Autog-r-acf0eed67c7441f897114f29143f4601#e33835b5a2e3473c9606f54a5a5b7eb2
