@@ -17,7 +17,7 @@
             </div>
         </div>
         <h3 class="text-3xl font-semibold capitalize mt-12">évènements passés</h3>
-        <div class="mb-6" v-for="block in events.results"  :key="block.id">
+        <div class="mb-6" v-for="block in events.results.reverse()"  :key="block.id">
             <div v-if="!block.properties.Incoming.formula.boolean"> 
                 <h3 class="capitalize font-semibold"> {{ dateToString(block.properties.Date.date.start) }}</h3>
                 <span class="italic text-sm"> {{ formatTags(block.properties.Tags.multi_select) }} </span>
@@ -49,7 +49,7 @@ export default Vue.extend({
             "sorts": [
             {
                 "property": "Date",
-                "direction": "descending"
+                "direction": "ascending"
             }
             ]
         }
