@@ -36,42 +36,40 @@
     </div>
 </template>
 
-<script lang="ts">
-import { isLet } from '@babel/types';
-import { List } from 'postcss/lib/list';
-import Vue from 'vue'
+<script setup lang="ts">
 
-export default Vue.extend({
-    name: 'IndexPage',
-    async asyncData({ $axios }) {
-        
-        const data = {
+const {data: events} = await useFetch(
+'https://api.notion.com/v1/databases/2e87451f6d604576ab1e5b37dea65590/query', {
+body: {
             "sorts": [
             {
                 "property": "Date",
-                "direction": "ascending"
+                "direction": "descending"
             }
             ]
-        }
-        
-        const events = await $axios.$post("https://api.notion.com/v1/databases/2e87451f6d604576ab1e5b37dea65590/query", data );
-        return { events };
-    },
-    methods: {
-        dateToString(date : string) {
-            const event = new Date(date)
-            return event.toLocaleDateString('fr-FR', { weekday: "long", year: "numeric", month: "long", day: "numeric" })
         },
-        formatTags(tags : Array<any>) {
-            let tagsList = new Array<string>();
-            
-            tags.forEach(element => {
-                tagsList.push(element.name)
-            });
-            return tagsList.join(', ')
+        method: "POST",
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.NOTION_TOKEN}`,
+            'Notion-Version': '2022-06-28',
         }
-    }
 })
+
+
+const dateToString = (date : string) => {
+    const event = new Date(date)
+    return event.toLocaleDateString('fr-FR', { weekday: "long", year: "numeric", month: "long", day: "numeric" })
+}
+const formatTags = (tags : Array<any>) => {
+    let tagsList = new Array<string>();
+    
+    tags.forEach(element => {
+        tagsList.push(element.name)
+    });
+    return tagsList.join(', ')
+}
+
 </script>
 
 <style>
